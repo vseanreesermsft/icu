@@ -69,7 +69,7 @@ stages:
             artifactName: Artifacts_iOS
             condition: and(succeeded(), ne(variables['System.TeamProject'], 'public'), ne(variables['Build.Reason'], 'PullRequest'))
 
-            ############ MacCatalyst BUILD ############
+      ############ MacCatalyst BUILD ############
       - job: Build_MacCatalyst
         displayName: MacCatalyst
         timeoutInMinutes: 45
@@ -148,6 +148,10 @@ stages:
         - task: DownloadPipelineArtifact@2
           inputs:
             artifact: Artifacts_iOS
+            path: 'artifacts/bin'
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            artifact: Artifacts_MacCatalyst
             path: 'artifacts/bin'
         - task: DownloadPipelineArtifact@2
           inputs:
