@@ -3,12 +3,12 @@ MACCATALYST_SDK=macosx
 ifeq ($(TARGET_ARCHITECTURE),arm64)
 	MACCATALYST_ARCH=-arch arm64
 	MACCATALYST_TARGET=-target arm64-apple-ios14.2-macabi
-	MACCATALYST_ICU_HOST=i686-apple-darwin11
+	MACCATALYST_ICU_HOST=arm-apple-darwin
 endif
 ifeq ($(TARGET_ARCHITECTURE),x64)
 	MACCATALYST_ARCH=-arch x86_64
 	MACCATALYST_TARGET=-target x86_64-apple-ios13.5-macabi
-	MACCATALYST_ICU_HOST=arm-apple-darwin
+	MACCATALYST_ICU_HOST=i686-apple-darwin11
 endif
 
 XCODE_DEVELOPER := $(shell xcode-select --print-path)

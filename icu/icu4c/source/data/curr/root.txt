@@ -193,16 +193,16 @@ root{
     CurrencyUnitPatterns{
         other{"{0} {1}"}
     }
-    Version{"37"}
+    Version{"2.1.50.6"}
     currencySpacing{
         afterCurrency{
             currencyMatch{"[:^S:]"}
-            insertBetween{" "}
+            insertBetween{" "}
             surroundingMatch{"[:digit:]"}
         }
         beforeCurrency{
             currencyMatch{"[:^S:]"}
-            insertBetween{" "}
+            insertBetween{" "}
             surroundingMatch{"[:digit:]"}
         }
     }
