@@ -135,6 +135,7 @@ stages:
         dependsOn:
           - Build_Browser
           - Build_iOS
+          - Build_MacCatalyst
           - Build_tvOS
           - Build_Android
         timeoutInMinutes: 30
