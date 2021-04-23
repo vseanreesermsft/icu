@@ -84,7 +84,7 @@ stages:
           displayName: Upload artifacts
           inputs:
             targetPath: 'artifacts/bin'
-            artifactName: Artifacts_iOS
+            artifactName: Artifacts_MacCatalyst
             condition: and(succeeded(), ne(variables['System.TeamProject'], 'public'), ne(variables['Build.Reason'], 'PullRequest'))
 
       ############ tvOS BUILD ############
