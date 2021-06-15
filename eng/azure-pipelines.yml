@@ -34,7 +34,7 @@ stages:
         displayName: Browser
         timeoutInMinutes: 30
         pool:
-          vmImage: ubuntu-16.04
+          vmImage: ubuntu-18.04
         container:
           image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-18.04-webassembly-20210111135621-8ac9b02
         steps:
@@ -111,7 +111,7 @@ stages:
         displayName: Android
         timeoutInMinutes: 30
         pool:
-          vmImage: ubuntu-16.04
+          vmImage: ubuntu-18.04
         container:
           image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-18.04-android-20200422191843-e2c3f83
         steps:
