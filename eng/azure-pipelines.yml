@@ -39,7 +39,7 @@ stages:
               assetManifestOS: browser
               assetManifestPlatform: wasm
         pool:
-          name: Hosted Ubuntu 1604
+          vmImage: ubuntu-18.04
         container:
           image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-18.04-webassembly-20200827125937-9740252
         steps:
