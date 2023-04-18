@@ -32,7 +32,7 @@ stages:
       ############ BROWSER BUILD ############
       - job: Build_Browser
         displayName: Browser
-        timeoutInMinutes: 30
+        timeoutInMinutes: 360
         pool:
           ${{ if eq(variables['System.TeamProject'], 'public') }}:
             vmImage: ubuntu-20.04
@@ -54,7 +54,7 @@ stages:
 
       - job: Build_Browser_Threading
         displayName: Browser_Threading
-        timeoutInMinutes: 30
+        timeoutInMinutes: 360
         pool:
           ${{ if eq(variables['System.TeamProject'], 'public') }}:
             vmImage: ubuntu-20.04
@@ -77,7 +77,7 @@ stages:
       ############ iOS BUILD ############
       - job: Build_iOS
         displayName: iOS
-        timeoutInMinutes: 45
+        timeoutInMinutes: 360
         pool:
           vmImage: macos-11
         steps:
@@ -98,7 +98,7 @@ stages:
       ############ MacCatalyst BUILD ############
       - job: Build_MacCatalyst
         displayName: MacCatalyst
-        timeoutInMinutes: 45
+        timeoutInMinutes: 360
         pool:
           vmImage: macos-11
         steps:
@@ -116,7 +116,7 @@ stages:
       ############ tvOS BUILD ############
       - job: Build_tvOS
         displayName: tvOS
-        timeoutInMinutes: 45
+        timeoutInMinutes: 360
         pool:
           vmImage: macos-11
         steps:
@@ -135,7 +135,7 @@ stages:
       ############ Android BUILD ############
       - job: Build_Android
         displayName: Android
-        timeoutInMinutes: 30
+        timeoutInMinutes: 360
         pool:
           ${{ if eq(variables['System.TeamProject'], 'public') }}:
             vmImage: ubuntu-20.04
@@ -169,7 +169,7 @@ stages:
           - Build_MacCatalyst
           - Build_tvOS
           - Build_Android
-        timeoutInMinutes: 30
+        timeoutInMinutes: 360
         pool:
           ${{ if eq(variables['System.TeamProject'], 'public') }}:
             vmImage: windows-2019
