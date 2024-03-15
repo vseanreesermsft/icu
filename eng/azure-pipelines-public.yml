@@ -1,0 +1,114 @@
+variables:
+  - template: /eng/common-variables.yml
+  - name: LinuxImage
+    value: build.ubuntu.2204.amd64.open
+  - name: WindowsImage
+    value: 1es-windows-2022-open
+  - name: MacImage
+    value: macOS-12
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - dotnet/main
+    - dotnet/release/*
+
+pr:
+  branches:
+    include:
+    - dotnet/main
+    - dotnet/release/*
+
+stages:
+- stage: build
+  displayName: Build
+  jobs:
+  - template: /eng/common/templates/jobs/jobs.yml
+    parameters:
+      enablePublishBuildArtifacts: true
+      enablePublishBuildAssets: true
+      enablePublishUsingPipelines: true
+      jobs:
+
+      ############ BROWSER BUILD ############
+      - job: Build_Browser
+        displayName: Browser
+        timeoutInMinutes: 360
+        pool:
+          name: NetCore-Svc-Public
+          demands: ImageOverride -equals $(LinuxImage)
+        container:
+          image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-18.04-webassembly-20210111135621-8ac9b02
+        steps:
+        - bash: |
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=Browser /p:TargetArchitecture=wasm $(_InternalBuildArgs)
+          displayName: Build
+
+      - job: Build_Browser_Threading
+        displayName: Browser_Threading
+        timeoutInMinutes: 360
+        pool:
+          name: NetCore-Svc-Public
+          demands: ImageOverride -equals $(LinuxImage)
+        container:
+          image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-18.04-webassembly-20210111135621-8ac9b02
+        steps:
+        - bash: |
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=Browser /p:TargetArchitecture=wasm /p:WasmEnableThreads=true $(_InternalBuildArgs)
+          displayName: Build
+
+      ############ iOS BUILD ############
+      - job: Build_iOS
+        displayName: iOS
+        timeoutInMinutes: 360
+        pool:
+          vmImage: $(MacImage)
+        steps:
+        - bash: |
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=iOSSimulator /p:TargetArchitecture=x64 $(_InternalBuildArgs)
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=iOSSimulator /p:TargetArchitecture=arm64 $(_InternalBuildArgs)
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=iOS /p:TargetArchitecture=arm64 $(_InternalBuildArgs)
+          displayName: Build
+
+      ############ MacCatalyst BUILD ############
+      - job: Build_MacCatalyst
+        displayName: MacCatalyst
+        timeoutInMinutes: 360
+        pool:
+          vmImage: $(MacImage)
+        steps:
+        - bash: |
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=MacCatalyst /p:TargetArchitecture=x64 $(_InternalBuildArgs)
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=MacCatalyst /p:TargetArchitecture=arm64 $(_InternalBuildArgs)
+          displayName: Build
+
+      ############ tvOS BUILD ############
+      - job: Build_tvOS
+        displayName: tvOS
+        timeoutInMinutes: 360
+        pool:
+          vmImage: $(MacImage)
+        steps:
+        - bash: |
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=tvOSSimulator /p:TargetArchitecture=x64 $(_InternalBuildArgs)
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=tvOSSimulator /p:TargetArchitecture=arm64 $(_InternalBuildArgs)
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=tvOS /p:TargetArchitecture=arm64 $(_InternalBuildArgs)
+          displayName: Build
+
+      ############ Android BUILD ############
+      - job: Build_Android
+        displayName: Android
+        timeoutInMinutes: 360
+        pool:
+          name: NetCore-Svc-Public
+          demands: ImageOverride -equals $(LinuxImage)
+        container:
+          image: mcr.microsoft.com/dotnet-buildtools/prereqs:ubuntu-18.04-android-20200422191843-e2c3f83
+        steps:
+        - bash: |
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=Android /p:TargetArchitecture=x64 $(_InternalBuildArgs)
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=Android /p:TargetArchitecture=x86 $(_InternalBuildArgs)
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=Android /p:TargetArchitecture=arm64 $(_InternalBuildArgs)
+            ./build.sh --ci --restore --build --configuration $(_BuildConfig) /p:TargetOS=Android /p:TargetArchitecture=arm $(_InternalBuildArgs)
+          displayName: Build
